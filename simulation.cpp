@@ -224,7 +224,7 @@ bool FatTree_schedule(vector<vector<core>> &layerOne,
   }
   int num_row = floor((1 - util) * k / 2);
   if (change == true) {
-         	cout<<"token:"<<token<<"; num_row"<<num_row<<endl;
+    cout << "token:" << token << "; num_row" << num_row << endl;
     for (int m = token; m < token + num_row; m++) {
       if (m < k / 2) {
         for (int n = 0; n < k / 2; n++) {
@@ -264,32 +264,33 @@ bool F10_schedule(vector<vector<core>> &layerOne,
       break;
     }
   }
-	
+
   if (change == true) {
     cout << "token:" << token << "; num_row" << num_row << endl;
     for (int m = token; m < token + num_row; m++) {
-			if(m<k/2){
-      for (int n = 0; n < k / 2; n++) {
-        // deal with row part
-        //        if (layerOne[m][n].get_upgrade() == false) {
-        layerOne[m][n].set_upgrade();
-        layerOne[m][n].set_core_off();
-        for (int port = 0; port < k; port++) {
-          layerOne[m][n].set_off(port);
+      if (m < k / 2) {
+        for (int n = 0; n < k / 2; n++) {
+          // deal with row part
+          //        if (layerOne[m][n].get_upgrade() == false) {
+          layerOne[m][n].set_upgrade();
+          layerOne[m][n].set_core_off();
+          for (int port = 0; port < k; port++) {
+            layerOne[m][n].set_off(port);
+          }
+          //		cout<<"Core "<<m<<","<<n<<"upgrade"<<endl;
+          //        }
+          // deal with row part
+          //        if (layerOne[n][m].get_upgrade() == false) {
+          layerOne[n][m].set_upgrade();
+          layerOne[n][m].set_core_off();
+          for (int port = 0; port < k; port++) {
+            layerOne[n][m].set_off(port);
+          }
+          //       					cout<<"Core
+          //       "<<n<<","<<m<<"upgrade"<<endl;
+          //        }
         }
-        			//		cout<<"Core "<<m<<","<<n<<"upgrade"<<endl;
-        //        }
-        // deal with row part
-        //        if (layerOne[n][m].get_upgrade() == false) {
-        layerOne[n][m].set_upgrade();
-        layerOne[n][m].set_core_off();
-        for (int port = 0; port < k; port++) {
-          layerOne[n][m].set_off(port);
-        }
- //       					cout<<"Core "<<n<<","<<m<<"upgrade"<<endl;
-        //        }
       }
-			}
     }
     for (int m = 0; m < k; m++) {
       for (int n = 0; n < k / 2; n++) {
@@ -300,7 +301,8 @@ bool F10_schedule(vector<vector<core>> &layerOne,
             layerTwo[m][n].set_off(port);
           }
         } else if (num_row != 0) {
-          for (int port = token; (port < token + num_row) &&(port<k/2); port++) {
+          for (int port = token; (port < token + num_row) && (port < k / 2);
+               port++) {
             layerTwo[m][n].set_off(port);
           }
         }
@@ -358,26 +360,28 @@ void F10_resume(vector<vector<core>> &layerOne,
   }
   // if(change==true){
   for (int m = token; m < token + num_row; m++) {
-    if(m<k/2){
-		for (int n = 0; n < k / 2; n++) {
-      // deal with row part
-      //      if (layerOne[m][n].get_on() == false) {
-      layerOne[m][n].set_core_on();
-      for (int port = 0; port < k; port++) {
-        layerOne[m][n].set_on(port);
+    if (m < k / 2) {
+      for (int n = 0; n < k / 2; n++) {
+        // deal with row part
+        //      if (layerOne[m][n].get_on() == false) {
+        layerOne[m][n].set_core_on();
+        for (int port = 0; port < k; port++) {
+          layerOne[m][n].set_on(port);
+        }
+        //     					cout<<"Core
+        //     "<<m<<","<<n<<"resume"<<endl;
+        //      }
+        // deal with row part
+        //      if (layerOne[n][m].get_on() == false) {
+        layerOne[n][m].set_core_on();
+        for (int port = 0; port < k; port++) {
+          layerOne[n][m].set_on(port);
+        }
+        //   					cout<<"Core
+        //   "<<n<<","<<m<<"resume"<<endl;
+        //      }
       }
- //     					cout<<"Core "<<m<<","<<n<<"resume"<<endl;
-      //      }
-      // deal with row part
-      //      if (layerOne[n][m].get_on() == false) {
-      layerOne[n][m].set_core_on();
-      for (int port = 0; port < k; port++) {
-        layerOne[n][m].set_on(port);
-      }
-   //   					cout<<"Core "<<n<<","<<m<<"resume"<<endl;
-      //      }
     }
-		}
   }
   for (int m = 0; m < k; m++) {
     for (int n = 0; n < k / 2; n++) {
@@ -387,7 +391,8 @@ void F10_resume(vector<vector<core>> &layerOne,
           layerTwo[m][n].set_on(port);
         }
       } else if (num_row != 0) {
-        for (int port = token; (port < token + num_row)&&(port<k/2); port++) {
+        for (int port = token; (port < token + num_row) && (port < k / 2);
+             port++) {
           layerTwo[m][n].set_on(port);
         }
       }
@@ -401,8 +406,8 @@ vector<vector<pkt>> generate_pkt(int num_pkt_pod,
   srand(time(NULL));
   vector<vector<pkt>> packets(k, vector<pkt>(num_pkt_pod));
   for (int q = 0; q < k; q++) {
-//    int n = rand() % k;		//	TODO 2 alternative here
-		int n = q+1;
+    //    int n = rand() % k;		//	TODO 2 alternative here
+    int n = q + 1;
     int m = 0;
     for (; m < num_pkt_pod;) {
       for (; n < k; n++) {
@@ -465,7 +470,8 @@ void send_traffic(vector<vector<core>> &layerOne,
   for (int m = 0; m < k; m++) { // layerTwo allocate first
     for (int n = 0; n < k / 2; n++) {
       if (layerTwo[m][n].get_on() == true) {
-//        layerTwo[m][n].buffer_shuffle(); // move shuffle to other place
+        //        layerTwo[m][n].buffer_shuffle(); // move shuffle to other
+        //        place
         vector<int> port_info = layerTwo[m][n].check_avail();
         int avail = port_info.size();
         if ((avail == 0) && (layerTwo[m][n].get_on() == true))
@@ -480,37 +486,36 @@ void send_traffic(vector<vector<core>> &layerOne,
           for (int tmp = 0; tmp < avail; tmp++) {
             counter.push_back(0);
           }
-						int token = 0;
-          while (pkt_to_sent > 0 ) {
-//            int token = rand() % avail;
-						if(counter[token]<transmit_max){
-						int port = port_info[token];
-						core *tmp = layerTwo[m][n].get_core(port);
-						(*tmp).add_to_buffer(layerTwo[m][n].get_first());
-						layerTwo[m][n].erase_first();
-						pkt_to_sent--;
-						counter[token]++;
-						token++;
-						if(token==avail)	token=0;
-						}
-						else break;
-
-
-
-
-          /*  if (counter[token] < transmit_max) {//change
+          int token = 0;
+          while (pkt_to_sent > 0) {
+            //            int token = rand() % avail;
+            if (counter[token] < transmit_max) {
               int port = port_info[token];
-              core *tmp = layerTwo[m][n].get_core(port); // get the linked core
+              core *tmp = layerTwo[m][n].get_core(port);
               (*tmp).add_to_buffer(layerTwo[m][n].get_first());
               layerTwo[m][n].erase_first();
+              pkt_to_sent--;
               counter[token]++;
-              pkt_to_sent--; // deal with the situation that the link capacity
-                             // cannot handle the number of pkt_to_sent
-            } else {
-              avail--;
-              port_info.erase(port_info.begin() + token);
-              counter.erase(counter.begin() + token);
-            }*/
+              token++;
+              if (token == avail)
+                token = 0;
+            } else
+              break;
+
+            /*  if (counter[token] < transmit_max) {//change
+                int port = port_info[token];
+                core *tmp = layerTwo[m][n].get_core(port); // get the linked
+              core
+                (*tmp).add_to_buffer(layerTwo[m][n].get_first());
+                layerTwo[m][n].erase_first();
+                counter[token]++;
+                pkt_to_sent--; // deal with the situation that the link capacity
+                               // cannot handle the number of pkt_to_sent
+              } else {
+                avail--;
+                port_info.erase(port_info.begin() + token);
+                counter.erase(counter.begin() + token);
+              }*/
           }
         }
       }
@@ -537,7 +542,8 @@ void send_traffic(vector<vector<core>> &layerOne,
             (layerOne[m][n].get_first()).set_success();
             counter[port]++;
             count++;
-          } else {/* cout<<"layerOne"<<" m:"<<m<<" n: "<<n<<endl;cout<<"certain port "<<port<<" overwhelmed"<<endl;*/
+          } else { /* cout<<"layerOne"<<" m:"<<m<<" n: "<<n<<endl;cout<<"certain
+                      port "<<port<<" overwhelmed"<<endl;*/
           }
           pkt_to_sent--;
           layerOne[m][n].erase_first();
@@ -562,7 +568,7 @@ int main() {
   int pkt_size = 10;              // 10MB pkt_size
   int simulation_sec = 10;
   float util = 0.5;
-	int step = 0;
+  int step = 0;
   float pod_utilization[k] = {util};
   int num_pkt_pod = k * k / 4 * (floor(link_capacity / pkt_size * util));
 
@@ -580,13 +586,13 @@ int main() {
       layerTwo[m][n].set_par(m, n);
     }
   }
-   	FatTree(layerOne,layerTwo);	//Fat-tree link connection
-//  F10(layerOne, layerTwo); // F10 link connection
+  FatTree(layerOne, layerTwo); // Fat-tree link connection
+  //  F10(layerOne, layerTwo); // F10 link connection
   // back up info
   queue<vector<vector<pkt>>> pkt_record;
   for (int time = 0; time < simulation_sec + 2; time++) {
-        bool change = FatTree_schedule(layerOne, layerTwo, util);
-//    bool change = F10_schedule(layerOne, layerTwo, util);
+    bool change = FatTree_schedule(layerOne, layerTwo, util);
+    //    bool change = F10_schedule(layerOne, layerTwo, util);
     if (time < simulation_sec) {
       vector<vector<pkt>> packets = generate_pkt(num_pkt_pod, layerTwo);
       cout << time << " sec generates total # of pkts: " << k * num_pkt_pod
@@ -597,23 +603,25 @@ int main() {
     send_traffic(layerOne, layerTwo, link_capacity, pkt_size);
     cout << "total received # of packets: " << count_success_pkt(layerTwo)
          << endl;
-				 if(change==true) step++;
-        if (change == true) FatTree_resume(layerOne, layerTwo, util);
-//    if (change == true) F10_resume(layerOne, layerTwo, util);
+    if (change == true)
+      step++;
+    if (change == true)
+      FatTree_resume(layerOne, layerTwo, util);
+    //    if (change == true) F10_resume(layerOne, layerTwo, util);
   }
-	
-/*	for(int time=simulation_sec; time>0; time--){
-		vector<vector<pkt>> packet_pattern = pkt_record.back();
-		for(int m=0; m<k;m++){
-			for(int n=0; n<num_pkt_pod;n++){
-				cout<<packet_pattern[m][n].get_dest_pod();
-			}
-			cout<<endl;
-		}
-		pkt_record.pop();
-		cout<<"time: "<<time<<" sec"<<endl;
-	}*/
 
-  cout<<"steps: "<<step<<endl;
+  /*	for(int time=simulation_sec; time>0; time--){
+                  vector<vector<pkt>> packet_pattern = pkt_record.back();
+                  for(int m=0; m<k;m++){
+                          for(int n=0; n<num_pkt_pod;n++){
+                                  cout<<packet_pattern[m][n].get_dest_pod();
+                          }
+                          cout<<endl;
+                  }
+                  pkt_record.pop();
+                  cout<<"time: "<<time<<" sec"<<endl;
+          }*/
+
+  cout << "steps: " << step << endl;
   return 0;
 }
